@@ -15,7 +15,7 @@
         <div class="hidden-when-collapsed ml-5 font-black text-4xl text-yellow-500">DeBrito</div>
 
         <!-- Display when collapsed -->
-        <div class="display-when-collapsed ml-5 font-black text-4xl text-orange-500">DB</div>
+        <div class="display-when-collapsed ml-5 font-black text-2xl text-orange-500">Br</div>
 
         <!-- Custom `active menu item background color` -->
         <x-menu activate-by-route active-bg-color="bg-base-300/10">
