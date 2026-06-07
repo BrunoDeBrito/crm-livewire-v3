@@ -9,6 +9,14 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
+/**
+ * @class Register
+ * @package App\Livewire\Auth
+ * @author BrunoDeBrito <brunordebrito@gmail.com>
+ * @since 6/6/26 21:53
+ * @version 1.0.0
+ *
+ */
 class Register extends Component
 {
     #[Rule(['required', 'max:255'])]
