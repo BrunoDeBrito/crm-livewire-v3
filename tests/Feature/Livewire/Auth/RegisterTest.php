@@ -51,8 +51,8 @@ test('validation rules', function ($f) {
     $livewire->call('submit')
         ->assertHasErrors([$f->field => $f->rule]);
 })->with([
-    'name::required'   => (object)['field' => 'name', 'value' => '', 'rule' => 'required'],
-    'name::max:255'    => (object)['field' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
+    'name::required' => (object)['field' => 'name', 'value' => '', 'rule' => 'required'],
+    'name::max:255'  => (object)['field' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
 
     'email::required'  => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
     'email::email'     => (object)['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
