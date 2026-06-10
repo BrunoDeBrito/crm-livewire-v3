@@ -1,3 +1,5 @@
 <div>
-    {{-- Be like water. --}}
+    @error('invalidCredentials')
+    <span>{{ $message }}</span>
+    @enderror
 </div>
