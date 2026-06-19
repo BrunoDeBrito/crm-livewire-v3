@@ -11,13 +11,10 @@
 <x-main full-width>
     <x-slot:sidebar drawer="main-drawer" collapsible class="pt-3 bg-sky-800 text-white">
 
-        <!-- Hidden when collapsed -->
         <div class="hidden-when-collapsed ml-5 font-black text-4xl text-yellow-500">DeBrito</div>
 
-        <!-- Display when collapsed -->
         <div class="display-when-collapsed ml-5 font-black text-2xl text-orange-500">Br</div>
 
-        <!-- Custom `active menu item background color` -->
         <x-menu activate-by-route active-bg-color="bg-base-300/10">
 
             <!-- User -->
@@ -26,7 +23,7 @@
                              class="!-mx-2 mt-2 mb-5 border-y border-y-sky-900">
                     <x-slot:actions>
                         <div class="tooltip tooltip-left" data-tip="logoff">
-                            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs"/>
+                            <livewire:auth.logout />
                         </div>
                     </x-slot:actions>
                 </x-list-item>
