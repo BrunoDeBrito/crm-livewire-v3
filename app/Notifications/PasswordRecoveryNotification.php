@@ -22,8 +22,8 @@ class PasswordRecoveryNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
-            ->line('The introduction to the notification.')
-            ->line('Thank you for using our application!');
+        ->line('The introduction to the notification.')
+        ->line('Thank you for using our application!');
     }
 
     public function toArray(object $notifiable): array
