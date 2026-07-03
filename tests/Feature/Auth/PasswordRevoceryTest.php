@@ -9,7 +9,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas, get};
 
 it('needs to have a route to password recovery', function () {
-    get(route('auth.password.recovery'))
+    get(route('password.recovery'))
     ->assertOk();
 });
 

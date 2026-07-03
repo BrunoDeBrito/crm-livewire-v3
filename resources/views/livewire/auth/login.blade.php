@@ -3,7 +3,7 @@
         <x-input label="Email" wire:model="email"/>
         <x-input label="Password" wire:model="password" type="password"/>
         <div class="w-full text-right text-sm">
-            <a wire:navigate href="{{ route("auth.password.recovery") }}" class="link link-primary">
+            <a wire:navigate href="{{ route("password.recovery") }}" class="link link-primary">
                 I want to create an account
             </a>
         </div>
