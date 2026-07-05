@@ -20,6 +20,12 @@
             </div>
         </x-slot:actions>
 
+        @if($message = session()->get('status'))
+            <x-alert icon="o-exclamation-triangle" class="alert-error">
+                <span>{{ $message }}</span>
+            </x-alert>
+        @endif
+
         @error('invalidCredentials')
         <x-alert icon="o-exclamation-triangle" class="alert-warning">
             <span>{{ $message }}</span>
