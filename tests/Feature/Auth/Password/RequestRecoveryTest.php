@@ -10,7 +10,7 @@ use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas, get};
 
 it('needs to have a route to password recovery', function () {
     get(route('password.recovery'))
-    ->assertOk();
+        ->assertOk();
 });
 
 it('should be able to request for a password recovery sending notification to the user.', function () {
@@ -35,7 +35,7 @@ it('testing email property', function ($value, $rule) {
     Livewire::test(Recovery::class)
         ->set('email', $value)
         ->call('startPasswordRecovery')
-    ->assertHasErrors(['email' => $rule]);
+        ->assertHasErrors(['email' => $rule]);
 })->with([
     'required' => ['value' => '', 'rule' => 'required'],
     'email'    => ['value' => 'any email', 'rule' => 'email'],
