@@ -4,7 +4,7 @@
         <x-input label="Password" wire:model="password" type="password"/>
         <div class="w-full text-right text-sm">
             <a wire:navigate href="{{ route("password.recovery") }}" class="link link-primary">
-                I want to create an account
+                Forgot your password?
             </a>
         </div>
 

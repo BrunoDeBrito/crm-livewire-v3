@@ -8,7 +8,6 @@ use Illuminate\Notifications\Notification;
 
 /**
  * @class WelcomeNotification
- * @package App\Notifications
  * @author BrunoDeBrito <brunordebrito@gmail.com>
  * @since 6/18/26 23:00
  * @version 1.0.0

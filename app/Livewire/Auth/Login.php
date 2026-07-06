@@ -9,7 +9,6 @@ use Livewire\Component;
 
 /**
  * @class Login
- * @package App\Livewire\Auth
  * @author BrunoDeBrito <brunordebrito@gmail.com>
  * @since 6/18/26 22:59
  * @version 1.0.0
