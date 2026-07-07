@@ -2,16 +2,29 @@
     <x-form wire:submit="tryToLogin">
         <x-input label="Email" wire:model="email"/>
         <x-input label="Password" wire:model="password" type="password"/>
+        <div class="w-full text-right text-sm">
+            <a wire:navigate href="{{ route("password.recovery") }}" class="link link-primary">
+                Forgot your password?
+            </a>
+        </div>
 
         <x-slot:actions>
             <div class="w-full flex items-center justify-between">
-                <a wire:navigate href="{{ route("auth.register") }}" class="link link-primary">I want to create an account</a>
+                <a wire:navigate href="{{ route("auth.register") }}" class="link link-primary">
+                    I want to create an account
+                </a>
                 <div>
                     <x-button label="Reset" type="reset"/>
                     <x-button label="Login" class="btn-primary" type="submit" spinner="submit"/>
                 </div>
             </div>
         </x-slot:actions>
+
+        @if($message = session()->get('status'))
+            <x-alert icon="o-exclamation-triangle" class="alert-error">
+                <span>{{ $message }}</span>
+            </x-alert>
+        @endif
 
         @error('invalidCredentials')
         <x-alert icon="o-exclamation-triangle" class="alert-warning">
