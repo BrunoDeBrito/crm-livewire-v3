@@ -1,8 +1,18 @@
 <?php
 
-function obfuscate_email(string $email): string
+function obfuscate_email(string $email = null): string
 {
+    if (!$email) {
+        return '';
+    }
+
+    \Log::info('teste', ['email' => $email]);
+
     $split = explode('@', $email);
+
+    if (count($split) !== 2) {
+        return '';
+    }
 
     $firstPart      = $split[0];
     $qty            = (int) floor(strlen($firstPart) * 0.75);
