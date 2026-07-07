@@ -66,7 +66,6 @@ test('if is possible to reset the password with the given token.', function () {
 });
 
 it('checking form rules', function ($field, $value, $rule) {
-
     Notification::fake();
 
     $user = User::factory()->create();
@@ -88,10 +87,40 @@ it('checking form rules', function ($field, $value, $rule) {
         }
     );
 
-})->with([
-    'email:required'     => ['field' => 'email', 'value' => '', 'rule' => 'required'],
-    'email:confirmed'    => ['field' => 'email', 'value' => 'email@example.com', 'rule' => 'confirmed'],
-    'email:email'        => ['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
-    'password:required'  => ['field' => 'password', 'value' => '', 'rule' => 'required'],
-    'password:confirmed' => ['field' => 'password', 'value' => 'any-password', 'rule' => 'confirmed'],
-]);
+})
+    ->with([
+        'email:required'     => ['field' => 'email', 'value' => '', 'rule' => 'required'],
+        'email:confirmed'    => ['field' => 'email', 'value' => 'email@example.com', 'rule' => 'confirmed'],
+        'email:email'        => ['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
+        'password:required'  => ['field' => 'password', 'value' => '', 'rule' => 'required'],
+        'password:confirmed' => ['field' => 'password', 'value' => 'any-password', 'rule' => 'confirmed'],
+    ]);
+
+test('needs to show obfuscate email to the user', function () {
+    $email = 'jeremias@example.com';
+
+    $obfuscatedEmail = obfuscate_email($email);
+
+    expect($obfuscatedEmail)
+        ->toBe('je******@********.com');
+
+    Notification::fake();
+
+    $user = User::factory()->create();
+
+    Livewire::test(Password\Recovery::class)
+        ->set('email', $user->email)
+        ->call('startPasswordRecovery');
+
+    Notification::assertSentTo(
+        $user,
+        ResetPassword::class,
+        static function (ResetPassword $item) use ($user) {
+            Livewire::test(Password\Reset::class, ['token' => $item->token, 'email' => $user->email])
+                ->assertSet('obfuscatedEmail', obfuscate_email($user->email))
+                ->call('updatePassword');
+
+            return true;
+        }
+    );
+});
