@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
+ * @class UserFactory
+ * @author BrunoDeBrito @email <brunordebrito@gmail.com>
+ * @since 7/9/26 15:52
+ * @version 1.0.0
  * @extends Factory<User>
+ *
  */
 class UserFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -27,13 +30,17 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function withPermission($key): Factory|self
+    {
+        return $this->afterCreating(function (User $user) use ($key) {
+            $user->givePermissionTo($key);
+        });
     }
 }
