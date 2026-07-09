@@ -99,7 +99,7 @@ it('checking form rules', function ($field, $value, $rule) {
 test('needs to show obfuscate email to the user', function () {
     $email = 'jeremias@example.com';
 
-    $obfuscatedEmail = obfuscate_email($email);
+    $obfuscatedEmail = obfuscateEmail($email);
 
     expect($obfuscatedEmail)
         ->toBe('je******@********.com');
@@ -117,7 +117,7 @@ test('needs to show obfuscate email to the user', function () {
         ResetPassword::class,
         static function (ResetPassword $item) use ($user) {
             Livewire::test(Password\Reset::class, ['token' => $item->token, 'email' => $user->email])
-                ->assertSet('obfuscatedEmail', obfuscate_email($user->email))
+                ->assertSet('obfuscatedEmail', obfuscateEmail($user->email))
                 ->call('updatePassword');
 
             return true;
