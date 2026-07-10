@@ -1,9 +1,20 @@
 <?php
 
-use App\Models\{Permission, User};
-use Database\Seeders\{PermissionSeeder, UserSeeder};
+use App\Models\{
+    Permission,
+    User
+};
+use Database\Seeders\{
+    PermissionSeeder,
+    UserSeeder
+};
 
-use function Pest\Laravel\{assertDatabaseHas, seed};
+use function Pest\Laravel\{
+    actingAs,
+    assertDatabaseHas,
+    get,
+    seed
+};
 
 it('should be able to give an user a permission to do something', function () {
 
@@ -52,4 +63,12 @@ test('seed with an admin user', function () {
             ->id,
     ]);
 
+});
+
+it('should block a access the access to an admin page if the user does not have the permission to be an admin.', function () {
+    $user = User::factory()->create();
+
+    actingAs($user)
+        ->get(route('admin.dashboard'))
+    ->assertForbidden();
 });

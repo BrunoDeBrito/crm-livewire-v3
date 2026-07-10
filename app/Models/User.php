@@ -49,6 +49,8 @@ class User extends Authenticatable
 
     public function hasPermissionTo(string $key): bool
     {
+        \Log::info('key', [$key]);
+
         return $this->permissions()
             ->where(compact('key'))
             ->exists();
