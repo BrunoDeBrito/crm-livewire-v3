@@ -8,6 +8,7 @@ use Database\Seeders\{
     PermissionSeeder,
     UserSeeder
 };
+use Illuminate\Support\Facades\{Cache, DB};
 
 use function Pest\Laravel\{
     actingAs,
@@ -71,4 +72,28 @@ it('should block a access the access to an admin page if the user does not have 
     actingAs($user)
         ->get(route('admin.dashboard'))
     ->assertForbidden();
+});
+
+test('Let is make sure that we are using chace to store user permission', function () {
+    $user = User::factory()->create();
+
+    $user->givePermissionTo('be an admin');
+
+    $cacheKey = "user::{$user->id}::permissions";
+
+    expect(Cache::has($cacheKey))
+        ->toBeTrue('Checking if cache key exists')
+        ->and(Cache::get($cacheKey))
+        ->toBe($user->permissions);
+});
+
+test('Let is make sure that we are using the cache the retrieve/check when the user has given permission.', function () {
+    $user = User::factory()->create();
+
+    $user->givePermissionTo('be an admin');
+
+    DB::listen(fn () => throw new Exception('We got a hit'));
+    $user->hasPermissionTo('be an admin');
+
+    expect(true)->toBeTrue();
 });
