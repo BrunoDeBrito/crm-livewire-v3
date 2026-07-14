@@ -1,9 +1,9 @@
 <?php
 
+use App\Enums\Can;
 use App\Livewire\Auth\{Login, Password, Register};
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 #region Login/Logout Routes
 Route::get('login', Login::class)->name('login');
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
     #region Admin Route
     Route::prefix('admin')
-        ->middleware('can:be-an-admin')
+        ->middleware('can:' . Can::BE_AN_ADMIN->value)
         ->group(
             function () {
                 Route::get('dashboard', fn () => 'admin.dashboard')

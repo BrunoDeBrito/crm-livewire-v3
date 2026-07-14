@@ -20,9 +20,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         foreach(Can::cases() as $can) {
             Gate::define(
-                str($can->value)
-                    ->kebab()
-                    ->toString(),
+                $can->value,
                 fn (User $user) => $user->hasPermissionTo($can)
             );
         }
