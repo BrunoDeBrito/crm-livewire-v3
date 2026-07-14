@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\{Can, Permission};
+use App\Enums\Can;
+use App\Models\{Permission};
 use Illuminate\Database\Seeder;
 
 /**

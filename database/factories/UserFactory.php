@@ -2,7 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\{Can, User};
+use App\Enums\Can;
+use App\Models\{User};
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
