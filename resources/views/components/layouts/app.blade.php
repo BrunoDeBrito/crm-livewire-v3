@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+@php use App\Enums\Can; @endphp
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -23,7 +24,7 @@
                              class="!-mx-2 mt-2 mb-5 border-y border-y-sky-900">
                     <x-slot:actions>
                         <div class="tooltip tooltip-left" data-tip="logoff">
-                            <livewire:auth.logout />
+                            <livewire:auth.logout/>
                         </div>
                     </x-slot:actions>
                 </x-list-item>
@@ -37,7 +38,7 @@
                 <x-menu-item title="Archives" icon="o-archive-box" link="####"/>
             </x-menu-sub>
 
-            @can(\App\Enums\Can::BE_AN_ADMIN->value)
+            @can(Can::BE_AN_ADMIN->value)
                 <x-menu-sub title="Admin" icon="o-lock-closed">
                     <x-menu-item title="Dashboard" icon="o-chart-bar-square" :link="route('admin.dashboard')"/>
                 </x-menu-sub>
