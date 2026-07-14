@@ -1,12 +1,10 @@
 <?php
 
-function obfuscate_email(string $email = null): string
+function obfuscateEmail(string $email = null): string
 {
     if (!$email) {
         return '';
     }
-
-    \Log::info('teste', ['email' => $email]);
 
     $split = explode('@', $email);
 

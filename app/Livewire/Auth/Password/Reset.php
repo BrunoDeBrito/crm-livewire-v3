@@ -70,7 +70,7 @@ class Reset extends Component
     #[Computed]
     public function obfuscatedEmail(): string
     {
-        return obfuscate_email($this->email);
+        return obfuscateEmail($this->email);
     }
 
     private function tokenNotValid(): bool
