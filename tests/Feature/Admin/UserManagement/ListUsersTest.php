@@ -14,3 +14,12 @@ it('should be to access the route admin-users', function () {
     get(route('admin.users'))
         ->assertOk();
 });
+
+test('making sure that the route is protecte by the permission BE_AN_ADMIM', function () {
+    actingAs(
+        User::factory()->create()
+    );
+
+    get(route('admin.users'))
+        ->assertForbidden();
+});
