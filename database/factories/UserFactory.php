@@ -17,9 +17,6 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
@@ -42,6 +39,13 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(
             fn (User $user) => $user->givePermissionTo($key)
+        );
+    }
+
+    public function admin(): static
+    {
+        return $this->afterCreating(
+            fn (User $user) => $user->givePermissionTo(Can::BE_AN_ADMIN)
         );
     }
 }
