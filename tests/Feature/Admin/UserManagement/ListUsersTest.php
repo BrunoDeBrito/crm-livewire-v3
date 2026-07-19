@@ -48,6 +48,7 @@ test('check the table format', function () {
             ['key' => 'name', 'label' => 'Name'],
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'permissions', 'label' => 'Permissions'],
+            ['key' => 'actions', 'label' => 'Actions'],
         ]);
 });
 
