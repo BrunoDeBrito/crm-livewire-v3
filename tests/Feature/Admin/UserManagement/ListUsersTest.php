@@ -101,14 +101,15 @@ it('should be able to filter by permission key', function () {
         ]
     );
 
-    $nonAdmin = User::factory()->create(
+    $nonAdmin = User::factory()->withPermission(Can::TESTING->value)->create(
         [
             'name'  => 'Mario Rossi',
             'email' => 'little_guy@example.com',
         ]
     );
 
-    $permission = Permission::where('key', Can::BE_AN_ADMIN->value)->first();
+    $pBAD  = Permission::where('key', Can::BE_AN_ADMIN->value)->first();
+    $pTEST = Permission::where('key', Can::TESTING->value)->first();
 
     actingAs($admin);
 
@@ -119,10 +120,10 @@ it('should be able to filter by permission key', function () {
 
             return true;
         })
-        ->set('search_permissions', [$permission->id])
+        ->set('search_permissions', [$pBAD->id, $pTEST->id])
         ->assertSet('users', function ($users) use ($admin) {
             expect($users)
-                ->toHaveCount(1)
+                ->toHaveCount(2)
                 ->and($users->first()->name)->toBe($admin->name);
 
             return true;

@@ -58,12 +58,10 @@ class Index extends Component
                 }
             )
             ->when(
-                $this->search_permissions, /** @phpstan-ignore-next-line */
-                fn (Builder $q) => $q->whereRaw('
-                    (select count(*)
-                     from permission_user
-                     where permission_id in (?) and user_id = users.id) > 0
-                ', $this->search_permissions)
+                $this->search_permissions,
+                fn (Builder $q) => $q->whereHas('permissions', function (Builder $query) {
+                    $query->whereIn('permissions.id', $this->search_permissions);
+                })
             )
             ->get();
     }
