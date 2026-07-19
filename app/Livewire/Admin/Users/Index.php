@@ -27,6 +27,8 @@ class Index extends Component
 
     public array $search_permissions = [];
 
+    public bool $search_trash = false;
+
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -66,6 +68,10 @@ class Index extends Component
                     $query->whereIn('permissions.id', $this->search_permissions);
                 })
             )
+            ->when(
+                $this->search_trash,
+                fn (Builder $q) => $q->onlyTrashed() /** @phpstan-ignore-line */
+            )
             ->get();
     }
 
@@ -77,6 +83,7 @@ class Index extends Component
             ['key' => 'name', 'label' => 'Name'],
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'permissions', 'label' => 'Permissions'],
+            ['key' => 'actions', 'label' => 'Actions'],
         ];
     }
 
