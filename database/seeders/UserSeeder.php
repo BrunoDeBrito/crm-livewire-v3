@@ -18,5 +18,8 @@ class UserSeeder extends Seeder
         User::factory()
             ->withPermission(Can::BE_AN_ADMIN)
             ->create($users);
+
+        User::factory()->count(50)->create();
+
     }
 }

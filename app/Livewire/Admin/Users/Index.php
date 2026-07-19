@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Admin\Users;
 
+use App\Enums\Can;
 use App\Models\User;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -13,18 +16,66 @@ use Livewire\Component;
  * @author BrunoDeBrito @email <brunordebrito@gmail.com>
  * @since 7/16/26 10:31
  * @version 1.0.0
- * @property-read LengthAwarePaginator|User[] $users
+ * @property-read Collection|User[] $users
+ * @property-read array $headers
  */
 class Index extends Component
 {
+    public ?string $search = null;
+
+    public array $search_permissions = [];
+
+    public function mount(): void
+    {
+        $this->authorize(Can::BE_AN_ADMIN->value);
+    }
+
     public function render(): View
     {
         return view('livewire.admin.users.index');
     }
 
     #[Computed]
-    public function users(): LengthAwarePaginator
+    public function users(): Collection
     {
-        return User::paginate();
+        $this->validate(['search_permissions' => 'exists:permissions,id']);
+        $search = strtolower($this->search);
+
+        return User::query()
+            ->when(
+                $this->search,
+                function (Builder $q) use ($search) {
+                    $q->where(
+                        DB::raw('lower(name)'), /** @phpstan-ignore-line */
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'email',
+                        'like',
+                        "%{$search}%"
+                    );
+                }
+            )
+            ->when(
+                $this->search_permissions, /** @phpstan-ignore-next-line */
+                fn (Builder $q) => $q->whereRaw('
+                    (select count(*)
+                     from permission_user
+                     where permission_id in (?) and user_id = users.id) > 0
+                ', $this->search_permissions)
+            )
+            ->get();
+    }
+
+    #[Computed]
+    public function headers(): array
+    {
+        return [
+            ['key' => 'id', 'label' => '#'],
+            ['key' => 'name', 'label' => 'Name'],
+            ['key' => 'email', 'label' => 'Email'],
+            ['key' => 'permissions', 'label' => 'Permissions'],
+        ];
     }
 }
