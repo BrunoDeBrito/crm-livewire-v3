@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Enums\Can;
-use App\Models\User;
+use App\Models\{Permission, User};
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -23,11 +23,14 @@ class Index extends Component
 {
     public ?string $search = null;
 
+    public Collection $permissionsToSearch;
+
     public array $search_permissions = [];
 
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
+        $this->filterPermissions();
     }
 
     public function render(): View
@@ -75,5 +78,15 @@ class Index extends Component
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'permissions', 'label' => 'Permissions'],
         ];
+    }
+
+    #[Computed]
+    public function filterPermissions(?string $value = null): void
+    {
+        $this->permissionsToSearch = Permission::query()
+            ->when($value, fn (Builder $q) => $q->where('name', 'like', "%{$value}%"))
+            ->orderBy('key')
+            ->get();
+
     }
 }

@@ -4,19 +4,23 @@
     <div class="flex justify-between items-center mb-4">
         <div class="w-2/3">
             <x-input
+                label="Search by email or name"
                 icon="o-magnifying-glass"
-                placeholder="Search by email and name"
+                placeholder="Search by email or name"
                 wire:model.live="search"
             />
         </div>
         <div>
-            <x-select>
-                <option value="1">1</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </x-select>
+            <x-choices
+                label="Filter by permissions"
+                placeholder="Filter by permissions"
+                wire:model.live="search_permissions"
+                :options="$permissionsToSearch"
+                option-label="key"
+                search-function="filterPermissions"
+                searchable
+                no-result-text="Nothing here"
+            />
         </div>
     </div>
 
