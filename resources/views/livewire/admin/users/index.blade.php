@@ -22,7 +22,6 @@
                 searchable
                 no-result-text="Nothing here"
             />
-
         </div>
 
         <div>
@@ -36,9 +35,36 @@
     </div>
 
     <x-table :headers="$this->headers" :rows="$this->users" striped>
+        @scope('header_id', $header)
+            <div
+                wire:click="sortBy('id', '{{ $header['sortDirection'] === 'asc' ? 'desc' : 'asc' }}')"
+                class="cursor-pointer"
+            >
+                {{ $header['label'] }} @if($header['sortColumnBy'] === 'id')
+                    <x-icon :name="$header['sortDirection'] === 'asc' ? 'o-chevron-down' : 'o-chevron-up'" class="h-4 w-4" />
+                @endif
+            </div>
+        @endscope
+
         @scope('header_name', $header)
-            <div class="flex items-center gap-2">
-                <span>{{ $header['label'] }} ⏫</span>
+            <div
+                wire:click="sortBy('name', '{{ $header['sortDirection'] === 'asc' ? 'desc' : 'asc' }}')"
+                class="cursor-pointer"
+            >
+                {{ $header['label'] }} @if($header['sortColumnBy'] === 'name')
+                    <x-icon :name="$header['sortDirection'] === 'asc' ? 'o-chevron-down' : 'o-chevron-up'" class="h-4 w-4" />
+                @endif
+            </div>
+        @endscope
+
+        @scope('header_email', $header)
+            <div
+                wire:click="sortBy('email', '{{ $header['sortDirection'] === 'asc' ? 'desc' : 'asc' }}')"
+                class="cursor-pointer"
+            >
+                {{ $header['label'] }} @if($header['sortColumnBy'] === 'email')
+                    <x-icon :name="$header['sortDirection'] === 'asc' ? 'o-chevron-down' : 'o-chevron-up'" class="h-4 w-4" />
+                @endif
             </div>
         @endscope
 
@@ -50,12 +76,12 @@
 
         @scope('cell_actions', $user)
             @unless($user->trashed())
-                <x-button
-                    icon="o-trash"
-                    wire:click="delete({{ $user->id }})"
-                    spinner
-                    class="btn-sm btn-outline btn-error"
-                />
+            <x-button
+                icon="o-trash"
+                wire:click="delete({{ $user->id }})"
+                spinner
+                class="btn-sm btn-outline btn-error"
+            />
             @else
                 <x-button
                     icon="o-arrow-path-rounded-square"
