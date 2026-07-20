@@ -36,36 +36,15 @@
 
     <x-table :headers="$this->headers" :rows="$this->users" striped>
         @scope('header_id', $header)
-            <div
-                wire:click="sortBy('id', '{{ $header['sortDirection'] === 'asc' ? 'desc' : 'asc' }}')"
-                class="cursor-pointer"
-            >
-                {{ $header['label'] }} @if($header['sortColumnBy'] === 'id')
-                    <x-icon :name="$header['sortDirection'] === 'asc' ? 'o-chevron-down' : 'o-chevron-up'" class="h-4 w-4" />
-                @endif
-            </div>
+            <x-table.th :$header name="id"/>
         @endscope
 
         @scope('header_name', $header)
-            <div
-                wire:click="sortBy('name', '{{ $header['sortDirection'] === 'asc' ? 'desc' : 'asc' }}')"
-                class="cursor-pointer"
-            >
-                {{ $header['label'] }} @if($header['sortColumnBy'] === 'name')
-                    <x-icon :name="$header['sortDirection'] === 'asc' ? 'o-chevron-down' : 'o-chevron-up'" class="h-4 w-4" />
-                @endif
-            </div>
+            <x-table.th :$header name="name"/>
         @endscope
 
         @scope('header_email', $header)
-            <div
-                wire:click="sortBy('email', '{{ $header['sortDirection'] === 'asc' ? 'desc' : 'asc' }}')"
-                class="cursor-pointer"
-            >
-                {{ $header['label'] }} @if($header['sortColumnBy'] === 'email')
-                    <x-icon :name="$header['sortDirection'] === 'asc' ? 'o-chevron-down' : 'o-chevron-up'" class="h-4 w-4" />
-                @endif
-            </div>
+            <x-table.th :$header name="email"/>
         @endscope
 
         @scope('cell_permissions', $user)
