@@ -36,6 +36,12 @@
     </div>
 
     <x-table :headers="$this->headers" :rows="$this->users" striped>
+        @scope('header_name', $header)
+            <div class="flex items-center gap-2">
+                <span>{{ $header['label'] }} ⏫</span>
+            </div>
+        @endscope
+
         @scope('cell_permissions', $user)
             @foreach($user->permissions as $permission)
                 <x-badge :value="$permission->key" class="badge-primary"/>

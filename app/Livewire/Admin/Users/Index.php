@@ -27,6 +27,10 @@ class Index extends Component
 
     public array $search_permissions = [];
 
+    public ?string $sortColumnBy = 'id';
+
+    public ?string $sortDirection = 'asc';
+
     public bool $search_trash = false;
 
     public function mount(): void
@@ -72,6 +76,7 @@ class Index extends Component
                 $this->search_trash,
                 fn (Builder $q) => $q->onlyTrashed() /** @phpstan-ignore-line */
             )
+            ->orderBy($this->sortColumnBy, $this->sortDirection)
             ->get();
     }
 
