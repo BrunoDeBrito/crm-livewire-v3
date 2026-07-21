@@ -4,12 +4,13 @@ namespace App\Livewire\Admin\Users;
 
 use App\Enums\Can;
 use App\Models\{Permission, User};
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
-use Livewire\Component;
+use Livewire\{Component, WithPagination};
 
 /**
  * @class Index
@@ -21,6 +22,8 @@ use Livewire\Component;
  */
 class Index extends Component
 {
+    use WithPagination;
+
     public ?string $search = null;
 
     public Collection $permissionsToSearch;
@@ -33,6 +36,8 @@ class Index extends Component
 
     public bool $search_trash = false;
 
+    public int $perPage = 15;
+
     public function mount(): void
     {
         $this->authorize(Can::BE_AN_ADMIN->value);
@@ -44,13 +49,19 @@ class Index extends Component
         return view('livewire.admin.users.index');
     }
 
+    public function updatePerPage(): void
+    {
+        $this->resetPage();
+    }
+
     #[Computed]
-    public function users(): Collection
+    public function users(): LengthAwarePaginator
     {
         $this->validate(['search_permissions' => 'exists:permissions,id']);
         $search = strtolower($this->search);
 
         return User::query()
+            ->with('permissions')
             ->when(
                 $this->search,
                 function (Builder $q) use ($search) {
@@ -77,7 +88,7 @@ class Index extends Component
                 fn (Builder $q) => $q->onlyTrashed()/** @phpstan-ignore-line */
             )
             ->orderBy($this->sortColumnBy, $this->sortDirection)
-            ->get();
+            ->paginate($this->perPage);
     }
 
     #[Computed]

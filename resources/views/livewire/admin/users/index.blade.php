@@ -22,19 +22,40 @@
                 searchable
                 no-result-text="Nothing here"
             />
+
+        </div>
+
+        <div>
+            <x-select
+                wire:model.live="perPage"
+                label="Per page"
+                :options="
+                [
+                    ['id' => 5,   'name' => 5],
+                    ['id' => 15,  'name' => 15],
+                    ['id' => 25,  'name' => 25],
+                    ['id' => 50,  'name' => 50],
+                    ['id' => 100, 'name' => 100],
+                ]"
+            />
         </div>
 
         <div>
             <x-checkbox
                 class="checkbox-primary"
-                label="Show deleted users"
+                label="Show deleted"
                 wire:model.live="search_trash"
                 right tight
             />
         </div>
     </div>
 
-    <x-table :headers="$this->headers" :rows="$this->users" striped>
+    <x-table
+        :headers="$this->headers"
+        :rows="$this->users->getCollection()"
+        striped
+        with-pagination
+    >
         @scope('header_id', $header)
             <x-table.th :$header name="id"/>
         @endscope
@@ -71,4 +92,8 @@
             @endunless
         @endscope
     </x-table>
+
+    {{ $this->users->links() }}
+
+
 </div>

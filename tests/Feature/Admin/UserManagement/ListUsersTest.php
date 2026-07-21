@@ -3,6 +3,7 @@
 use App\Enums\Can;
 use App\Livewire\Admin;
 use App\Models\{Permission, User};
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
 
 use function Pest\Laravel\{actingAs, get};
@@ -78,13 +79,7 @@ test('check the table format', function () {
 });
 
 it('should be able to filter by name and email', function () {
-    $admin = User::factory()->admin()->create(
-        [
-            'name'  => 'Joe Doe',
-            'email' => 'admin@gmail.com',
-        ]
-    );
-
+    $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
     $mario = User::factory()->create(
         [
             'name'  => 'Mario Rossi',
@@ -120,12 +115,7 @@ it('should be able to filter by name and email', function () {
 });
 
 it('should be able to filter by permission key', function () {
-    $admin = User::factory()->admin()->create(
-        [
-            'name'  => 'Joe Doe',
-            'email' => 'admin@gmail.com',
-        ]
-    );
+    $admin    = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
     $nonAdmin = User::factory()->withPermission(Can::TESTING->value)->create(
         [
             'name'  => 'Mario Rossi',
@@ -177,12 +167,7 @@ it('should be able to list deleted users', function () {
 });
 
 it('should be able to sort by name', function () {
-    $admin = User::factory()->admin()->create(
-        [
-            'name'  => 'Joe Doe',
-            'email' => 'admin@gmail.com',
-        ]
-    );
+    $admin    = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
     $nonAdmin = User::factory()->withPermission(Can::TESTING->value)->create(
         [
             'name'  => 'Mario Rossi',
@@ -207,6 +192,27 @@ it('should be able to sort by name', function () {
             expect($users)
                 ->first()->name->toBe($nonAdmin->name)
                 ->and($users)->last()->name->toBe($admin->name);
+
+            return true;
+        });
+});
+
+it('should be able to paginate the result', function () {
+    $admin = User::factory()->admin()->create(['name' => 'Joe Doe', 'email' => 'admin@gmail.com']);
+    User::factory()->withPermission(Can::TESTING->value)->count(30)->create();
+
+    actingAs($admin);
+
+    Livewire::test(Admin\Users\Index::class)
+        ->assertSet('users', function (LengthAwarePaginator $users) {
+            expect($users)
+                ->toHaveCount(15);
+
+            return true;
+        })
+        ->set('perPage', 20)
+        ->assertSet('users', function ($users) {
+            expect($users)->toHaveCount(20);
 
             return true;
         });
