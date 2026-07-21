@@ -18,7 +18,6 @@
 
         <x-menu activate-by-route active-bg-color="bg-base-300/10">
 
-            <!-- User -->
             @if($user = auth()->user())
                 <x-list-item :item="$user" sub-value="username" no-separator no-hover
                              class="!-mx-2 mt-2 mb-5 border-y border-y-sky-900">
@@ -41,13 +40,13 @@
             @can(Can::BE_AN_ADMIN->value)
                 <x-menu-sub title="Admin" icon="o-lock-closed">
                     <x-menu-item title="Dashboard" icon="o-chart-bar-square" :link="route('admin.dashboard')"/>
+                    <x-menu-item title="Users" icon="o-users" :link="route('admin.users')"/>
                 </x-menu-sub>
             @endcan
 
         </x-menu>
     </x-slot:sidebar>
 
-    <!-- The `$slot` goes here -->
     <x-slot:content>
         {{ $slot }}
     </x-slot:content>

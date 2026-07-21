@@ -43,7 +43,7 @@ trait HasPermissions
         /** @var Collection $permissions */
         $permissions = Cache::get(
             $this->getPermissionCacheKey(),
-            $this->permissions
+            fn () => $this->permissions
         );
 
         return $permissions
