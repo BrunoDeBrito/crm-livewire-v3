@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
+use App\Notifications\UserDeletedNotification;
 use Illuminate\View\View;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -23,6 +24,8 @@ class Delete extends Component
 
     public ?string $confirmation_confirmation = null;
 
+    public bool $modal = false;
+
     public function render(): View
     {
         return view('livewire.admin.users.delete');
@@ -32,6 +35,8 @@ class Delete extends Component
     {
         $this->validate();
         $this->user->delete();
+
+        $this->user->notify(new UserDeletedNotification());
 
         $this->dispatch('user::deleted');
     }
