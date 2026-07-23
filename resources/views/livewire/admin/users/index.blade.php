@@ -76,12 +76,14 @@
 
         @scope('cell_actions', $user)
             @unless($user->trashed())
-            <x-button
-                icon="o-trash"
-                wire:click="delete({{ $user->id }})"
-                spinner
-                class="btn-sm btn-outline btn-error"
-            />
+                <x-button
+                    id="delete-user-{{ $user->id }}"
+                    wire:key="delete-user-{{ $user->id }}"
+                    icon="o-trash"
+                    wire:click="destroy('{{ $user->id }}')"
+                    spinner
+                    class="btn-sm btn-outline btn-error"
+                />
             @else
                 <x-button
                     icon="o-arrow-path-rounded-square"
@@ -93,7 +95,8 @@
         @endscope
     </x-table>
 
-    {{ $this->users->links() }}
+    {{ $this->users->links(data: ['scrollTo' => false]) }}
 
+    <livewire:admin.users.delete />
 
 </div>
