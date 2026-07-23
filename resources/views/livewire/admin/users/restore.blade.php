@@ -1,13 +1,13 @@
 <div>
     <x-modal
-        title="Delete user"
-        subtitle="Confirm the deletion of this User: {{ $user?->name }}."
+        title="Restore user"
+        subtitle="Confirm the restoring access for this User: {{ $user?->name }}."
         wire:model="modal"
         separator
         class="modal-lg"
     >
         <x-input
-            label="Write `DART VADER` to confirm the deletion of User"
+            label="Write `YODA` to confirm the restoring of User"
             wire:model.defer="confirmation_confirmation"
         />
 
@@ -19,10 +19,10 @@
                 class="btn btn-outline btn-ghost"
             />
             <x-button
-                icon="o-archive-box-x-mark"
+                icon="o-arrow-up-circle"
                 title="Confirm"
-                wire:click="destroy"
-                class="btn btn-outline btn-error"
+                wire:click="restore"
+                class="btn btn-sm btn-outline btn-success"
             />
         </x-slot:actions>
 
