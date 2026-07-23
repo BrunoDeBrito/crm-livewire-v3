@@ -33,7 +33,7 @@ it('should have a confirmation before deletion', function () {
         ->set('user', $forRestore)
         ->call('restore')
         ->assertHasErrors(['confirmation' => 'confirmed'])
-        ->assertNotDispatched('user::deleted');
+        ->assertNotDispatched('user::restoring');
 
     assertSoftDeleted('users', ['id' => $forRestore->id]);
 });
