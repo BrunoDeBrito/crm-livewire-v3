@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\{Collection, Model, SoftDeletes};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Pest\Expectations\{EachExpectation, HigherOrderExpectation, OppositeExpectation};
 
 /**
  * @class User
@@ -27,6 +29,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'restored_at',
+        'restored_by',
+        'deleted_by',
     ];
 
     protected $hidden = [
@@ -38,4 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
+
+    public function restoredBy(): BelongsTo
+    {
+        return $this->belongsTo(__CLASS__, 'restored_by');
+    }
+
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(__CLASS__, 'deleted_by');
+    }
 }

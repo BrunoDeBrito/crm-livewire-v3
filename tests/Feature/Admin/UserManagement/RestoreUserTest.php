@@ -21,6 +21,11 @@ it('should be able to restore a user', function () {
         ->assertDispatched('user::restoring');
 
     assertNotSoftDeleted('users', ['id' => $forRestore->id]);
+
+    $forRestore->refresh();
+
+    expect($forRestore)->restored_at->not()->toBeNull()
+        ->restoredBy->id->toBe($user->id);
 });
 
 it('should have a confirmation before deletion', function () {
