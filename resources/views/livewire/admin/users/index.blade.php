@@ -76,14 +76,16 @@
 
         @scope('cell_actions', $user)
             @unless($user->trashed())
-                <x-button
-                    id="delete-user-{{ $user->id }}"
-                    wire:key="delete-user-{{ $user->id }}"
-                    icon="o-trash"
-                    wire:click="destroy('{{ $user->id }}')"
-                    spinner
-                    class="btn-sm btn-outline btn-error"
-                />
+                @unless($user->is(auth()->user()))
+                    <x-button
+                        id="delete-user-{{ $user->id }}"
+                        wire:key="delete-user-{{ $user->id }}"
+                        icon="o-trash"
+                        wire:click="destroy('{{ $user->id }}')"
+                        spinner
+                        class="btn-sm btn-outline btn-error"
+                    />
+                @endunless
             @else
                 <x-button
                     icon="o-arrow-path-rounded-square"

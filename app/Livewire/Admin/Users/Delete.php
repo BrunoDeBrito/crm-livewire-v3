@@ -7,6 +7,7 @@ use App\Notifications\UserDeletedNotification;
 use Illuminate\View\View;
 use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 /**
  * @class Delete
@@ -17,6 +18,8 @@ use Livewire\Component;
  */
 class Delete extends Component
 {
+    use Toast;
+
     public ?User $user = null;
 
     #[Rule(['required', 'string', 'confirmed'])]
@@ -41,6 +44,15 @@ class Delete extends Component
     public function destroy(): void
     {
         $this->validate();
+
+        if ($this->user->is(auth()->user())) {
+            $this->addError('confirmation', 'You cannot delete yourself.');
+
+            $this->error('User not permission deleted is user!');
+
+            return;
+        }
+
         $this->user->delete();
 
         $this->user->notify(new UserDeletedNotification());
@@ -48,5 +60,7 @@ class Delete extends Component
         $this->dispatch('user::deleted');
 
         $this->reset('modal', 'confirmation', 'confirmation_confirmation');
+        $this->success('User deleted successfully!');
+
     }
 }
