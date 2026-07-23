@@ -44,7 +44,8 @@ class Index extends Component
         $this->filterPermissions();
     }
 
-    #[On(['user::deleted', 'user::restoring'])]
+    #[On('user::deleted')]
+    #[On('user::restored')]
     public function render(): View
     {
         return view('livewire.admin.users.index');

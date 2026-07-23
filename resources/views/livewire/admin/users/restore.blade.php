@@ -22,7 +22,7 @@
                 icon="o-arrow-up-circle"
                 title="Confirm"
                 wire:click="restore"
-                class="btn btn-sm btn-outline btn-success"
+                class="btn btn-outline btn-success"
             />
         </x-slot:actions>
 
