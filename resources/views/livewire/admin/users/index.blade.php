@@ -89,7 +89,7 @@
             @else
                 <x-button
                     icon="o-arrow-path-rounded-square"
-                    wire:click="restore({{ $user->id }})"
+                    wire:click="restore('{{ $user->id }}')"
                     spinner
                     class="btn-sm btn-outline btn-success"
                 />
@@ -100,5 +100,6 @@
     {{ $this->users->links(data: ['scrollTo' => false]) }}
 
     <livewire:admin.users.delete />
+    <livewire:admin.users.restore />
 
 </div>

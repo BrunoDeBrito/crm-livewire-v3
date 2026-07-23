@@ -3,27 +3,27 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
-use App\Notifications\UserDeletedNotification;
+use App\Notifications\UserRestoredAccessNotification;
 use Illuminate\View\View;
 use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
 use Mary\Traits\Toast;
 
 /**
- * @class Delete
+ * @class Restore
  * @author BrunoDeBrito @email <brunordebrito@gmail.com>
- * @since 7/22/26 15:56
+ * @since 7/23/26 15:53
  * @version 1.0.0
  *
  */
-class Delete extends Component
+class Restore extends Component
 {
     use Toast;
 
     public ?User $user = null;
 
     #[Rule(['required', 'string', 'confirmed'])]
-    public string $confirmation = "DART VADER";
+    public string $confirmation = "YODA";
 
     public ?string $confirmation_confirmation = null;
 
@@ -31,39 +31,40 @@ class Delete extends Component
 
     public function render(): View
     {
-        return view('livewire.admin.users.delete');
+        return view('livewire.admin.users.restore');
     }
 
-    #[On('user::deletion')]
+    #[On('user::restoring')]
     public function openConfirmationFor(int $userId): void
     {
         $this->modal = true;
-        $this->user  = User::select('id', 'name', 'email')->find($userId);
+        $this->user  = User::select('id', 'name', 'email')->withTrashed()->find($userId);
     }
 
-    public function destroy(): void
+    public function restore(): void
     {
         $this->validate();
 
         if ($this->user->is(auth()->user())) {
-            $this->addError('confirmation', 'You cannot delete yourself.');
+            $this->addError('confirmation', 'You cannot restore yourself.');
 
-            $this->error('User not permission deleted is user!');
+            $this->error('User not permission restored is user!');
 
             return;
         }
 
-        $this->user->delete();
+        $this->user->restore();
 
-        $this->user->deleted_by = auth()->user()->id;
+        $this->user->restored_at = now();
+        $this->user->restored_by = auth()->user()->id;
         $this->user->save();
 
-        $this->user->notify(new UserDeletedNotification());
+        $this->user->notify(new UserRestoredAccessNotification());
 
-        $this->dispatch('user::deleted');
+        $this->dispatch('user::restoring');
 
         $this->reset('modal', 'confirmation', 'confirmation_confirmation');
-        $this->success('User deleted successfully!');
+        $this->success('User restored successfully!');
 
     }
 }
