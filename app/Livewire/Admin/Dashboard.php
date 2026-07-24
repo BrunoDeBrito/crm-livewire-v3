@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Enums\Can;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class Dashboard extends Component
