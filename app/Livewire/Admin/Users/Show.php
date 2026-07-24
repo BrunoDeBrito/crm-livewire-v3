@@ -29,5 +29,4 @@ class Show extends Component
         $this->user  = User::withTrashed()->find($id);
         $this->modal = true;
     }
-
 }
