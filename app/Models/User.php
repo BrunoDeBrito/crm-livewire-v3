@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\{Collection, Model, SoftDeletes};
+use Illuminate\Database\Eloquent\{SoftDeletes};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Pest\Expectations\{EachExpectation, HigherOrderExpectation, OppositeExpectation};
+use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @class User
@@ -17,13 +18,14 @@ use Pest\Expectations\{EachExpectation, HigherOrderExpectation, OppositeExpectat
  * @since 6/18/26 23:08
  * @version 1.0.0
  */
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use HasPermissions;
     use SoftDeletes;
+    use AuditableTrait;
 
     protected $fillable = [
         'name',
