@@ -4,7 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
 use App\Notifications\UserRestoredAccessNotification;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\{On, Rule};
 use Livewire\Component;
 use Mary\Traits\Toast;

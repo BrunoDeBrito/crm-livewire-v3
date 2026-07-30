@@ -5,10 +5,10 @@ namespace App\Livewire\Admin\Users;
 use App\Enums\Can;
 use App\Models\{Permission, User};
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\{Attributes\On, Component, WithPagination};
 
@@ -154,5 +154,10 @@ class Index extends Component
     public function restore(int $id): void
     {
         $this->dispatch('user::restoring', userId: $id)->to('admin.users.restore');
+    }
+
+    public function showUser(int $id): void
+    {
+        $this->dispatch('user::show', id: $id)->to('admin.users.show');
     }
 }

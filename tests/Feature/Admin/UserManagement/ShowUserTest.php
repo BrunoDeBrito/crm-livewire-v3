@@ -1,0 +1,61 @@
+<?php
+
+use App\Livewire\Admin;
+use App\Models\User;
+use Livewire\Attributes\On;
+use Livewire\Livewire;
+
+use function Pest\Laravel\actingAs;
+
+it('should be show all the details of the user in the component', function () {
+    $admin = User::factory()->admin()->create();
+    $user  = User::factory()->deleted()->create();
+
+    actingAs($admin);
+
+    Livewire::test(Admin\Users\Show::class)
+    ->call('loadUser', $user->id)
+    ->assertSet('user.id', $user->id)
+    ->assertSet('modal', true)
+        ->assertSee($user->name)
+        ->assertSee($user->email)
+        ->assertSee($user->created_at->format('d/m/Y H:i'))
+        ->assertSee($user->updated_at->format('d/m/Y H:i'))
+        ->assertSee($user->deleted_at->format('d/m/Y H:i'))
+        ->assertSee($user->deletedBy->name);
+});
+
+it('should open the modal when the event is dispatched', function () {
+    $admin = User::factory()->admin()->create();
+    $user  = User::factory()->create();
+
+    actingAs($admin);
+
+    Livewire::test(Admin\Users\Index::class)
+        ->call('showUser', $user->id)
+        ->assertDispatched('user::show', id: $user->id);
+});
+
+test('making sure that the method loadUser has the attribute On', function () {
+    $lwClass = new Admin\Users\Show();
+
+    try {
+        $reflection = new ReflectionClass($lwClass);
+    } catch (ReflectionException $e) {
+        dd($e->getMessage());
+    }
+
+    $attributes = $reflection->getMethod('loadUser')->getAttributes();
+
+    expect($attributes)->toHaveCount(1);
+
+    /** * @var ReflectionAttribute $attr */
+    $attr = $attributes[0];
+
+    expect($attr)->getName()->toBe(On::class)
+        ->and($attr)->getArguments()->toHaveCount(1);
+
+    $argument = $attr->getArguments()[0];
+    expect($argument)->toBe('user::show');
+
+});

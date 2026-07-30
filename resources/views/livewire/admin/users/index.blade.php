@@ -74,32 +74,46 @@
             @endforeach
         @endscope
 
-        @scope('cell_actions', $user)
-            @unless($user->trashed())
-                @unless($user->is(auth()->user()))
+
+        @scope('actions', $user)
+            <div class="flex items-center space-x-2">
+                <x-button
+                    id="show-btn-{{ $user->id }}"
+                    wire:key="show-btn-{{ $user->id }}"
+                    wire:click="showUser('{{ $user->id }}')"
+                    spinner
+                    class="btn-sm btn-outline btn-info"
+                    icon="o-eye"
+                />
+
+                @unless($user->trashed())
+                    @unless($user->is(auth()->user()))
+                        <x-button
+                            id="delete-user-{{ $user->id }}"
+                            wire:key="delete-user-{{ $user->id }}"
+                            icon="o-trash"
+                            wire:click="destroy('{{ $user->id }}')"
+                            spinner
+                            class="btn-sm btn-outline btn-error"
+                        />
+                    @endunless
+                @else
                     <x-button
-                        id="delete-user-{{ $user->id }}"
-                        wire:key="delete-user-{{ $user->id }}"
-                        icon="o-trash"
-                        wire:click="destroy('{{ $user->id }}')"
+                        icon="o-arrow-path-rounded-square"
+                        wire:click="restore('{{ $user->id }}')"
                         spinner
-                        class="btn-sm btn-outline btn-error"
+                        class="btn-sm btn-outline btn-success"
                     />
                 @endunless
-            @else
-                <x-button
-                    icon="o-arrow-path-rounded-square"
-                    wire:click="restore('{{ $user->id }}')"
-                    spinner
-                    class="btn-sm btn-outline btn-success"
-                />
-            @endunless
+            </div>
         @endscope
+
     </x-table>
 
     {{ $this->users->links(data: ['scrollTo' => false]) }}
 
-    <livewire:admin.users.delete />
-    <livewire:admin.users.restore />
+    <livewire:admin.users.delete/>
+    <livewire:admin.users.restore/>
+    <livewire:admin.users.show/>
 
 </div>
