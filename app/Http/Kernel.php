@@ -2,7 +2,15 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\{Authenticate, EncryptCookies, PreventRequestsDuringMaintenance, RedirectIfAuthenticated, TrimStrings, TrustProxies, ValidateSignature, VerifyCsrfToken};
+use App\Http\Middleware\{Authenticate,
+    EncryptCookies,
+    HandleImpersonation,
+    PreventRequestsDuringMaintenance,
+    RedirectIfAuthenticated,
+    TrimStrings,
+    TrustProxies,
+    ValidateSignature,
+    VerifyCsrfToken};
 use Illuminate\Auth\Middleware\{AuthenticateWithBasicAuth, Authorize, EnsureEmailIsVerified, RequirePassword};
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -22,6 +30,7 @@ class Kernel extends HttpKernel
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
+        HandleImpersonation::class,
     ];
 
     protected $middlewareGroups = [
