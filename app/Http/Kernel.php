@@ -30,7 +30,6 @@ class Kernel extends HttpKernel
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
-        HandleImpersonation::class,
     ];
 
     protected $middlewareGroups = [
@@ -41,6 +40,7 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
+            HandleImpersonation::class,
         ],
 
         'api' => [

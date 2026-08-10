@@ -10,7 +10,12 @@
     </head>
 
     <body class="min-h-screen font-sans antialiased">
+        @if(session('impersonate'))
+            <livewire:admin.users.stop-impersonate />
+        @endif
+
         <x-toast />
+
         <x-main full-width>
             <x-slot:sidebar drawer="main-drawer" collapsible class="pt-3 bg-sky-800 text-white">
 
@@ -50,11 +55,6 @@
             </x-slot:sidebar>
 
             <x-slot:content>
-
-                @if(session('impersonate'))
-                    {{ __("You are impersonating :name, click here to stop the impersonation.", ['name' => auth()->user()->name]) }}
-                @endif
-
                 {{ $slot }}
             </x-slot:content>
         </x-main>
