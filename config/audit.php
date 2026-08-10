@@ -1,5 +1,7 @@
 <?php
 
+use App\Audit\Resolvers\ImpersonatorResolver;
+
 return [
 
     'enabled' => env('AUDITING_ENABLED', true),
@@ -42,9 +44,10 @@ return [
     |
     */
     'resolvers' => [
-        'ip_address' => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
-        'user_agent' => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
-        'url'        => OwenIt\Auditing\Resolvers\UrlResolver::class,
+        'ip_address'        => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
+        'user_agent'        => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
+        'url'               => OwenIt\Auditing\Resolvers\UrlResolver::class,
+        'impersonated_user' => ImpersonatorResolver::class,
     ],
 
     /*
