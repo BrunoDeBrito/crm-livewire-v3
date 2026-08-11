@@ -17,7 +17,7 @@
             <livewire:admin.users.stop-impersonate />
         @endif
 
-        <livewire:dev.login />
+        <livewire:dev.login/>
 
         <x-main full-width>
             <x-slot:sidebar drawer="main-drawer" collapsible class="pt-3 bg-sky-800 text-white">
@@ -53,8 +53,8 @@
                             <x-menu-item title="Users" icon="o-users" :link="route('admin.users')"/>
                         </x-menu-sub>
                     @endcan
-
                 </x-menu>
+
             </x-slot:sidebar>
 
             <x-slot:content>
