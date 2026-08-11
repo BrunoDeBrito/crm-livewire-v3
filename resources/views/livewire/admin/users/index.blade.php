@@ -78,6 +78,7 @@
         @scope('actions', $user)
             <div class="flex items-center space-x-2">
                 <x-button
+                    title="Show user"
                     id="show-btn-{{ $user->id }}"
                     wire:key="show-btn-{{ $user->id }}"
                     wire:click="showUser('{{ $user->id }}')"
@@ -89,6 +90,17 @@
                 @unless($user->trashed())
                     @unless($user->is(auth()->user()))
                         <x-button
+                            title="Impersonate user"
+                            id="impersonate-btn-{{ $user->id }}"
+                            wire:key="impersonate-btn-{{ $user->id }}"
+                            wire:click="impersonate('{{ $user->id }}')"
+                            spinner
+                            class="btn-sm btn-outline btn-ghost"
+                            icon="o-users"
+                        />
+
+                        <x-button
+                            title="Delete user"
                             id="delete-user-{{ $user->id }}"
                             wire:key="delete-user-{{ $user->id }}"
                             icon="o-trash"
@@ -99,6 +111,7 @@
                     @endunless
                 @else
                     <x-button
+                        title="Restore user"
                         icon="o-arrow-path-rounded-square"
                         wire:click="restore('{{ $user->id }}')"
                         spinner
@@ -115,5 +128,6 @@
     <livewire:admin.users.delete/>
     <livewire:admin.users.restore/>
     <livewire:admin.users.show/>
+    <livewire:admin.users.impersonate />
 
 </div>

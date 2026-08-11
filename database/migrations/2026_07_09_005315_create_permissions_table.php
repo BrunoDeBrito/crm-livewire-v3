@@ -20,7 +20,6 @@ return new class () extends Migration {
                 ->constrained()
                 ->onDelete('cascade');
             $table->foreignId('permission_id')
-                ->unique()
                 ->constrained()
                 ->onDelete('cascade');
 
