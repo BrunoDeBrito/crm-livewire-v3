@@ -75,7 +75,7 @@ it('should have the correct permission to impersonate someone.', function () {
         ->assertRedirect();
 });
 
-it('should not be possible to impoersonate myself', function () {
+it('should not be possible to impersonate myself', function () {
     $admin = User::factory()->admin()->create();
 
     actingAs($admin);
