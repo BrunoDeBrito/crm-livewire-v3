@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 /**
@@ -17,15 +18,11 @@ class Logout extends Component
     {
         return
         <<<BLADE
-            <div>
-                <x-button icon="o-power"
-                    class="btn-circle btn-ghost btn-xs"
-                    wire:click="logout"
-                />
-            </div>
+            <div />
         BLADE;
     }
 
+    #[On('logout')]
     public function logout(): void
     {
         auth()->logout();
