@@ -10,11 +10,16 @@
     </head>
 
     <body class="min-h-screen font-sans antialiased">
+
+        <x-toast />
+
         @if(session('impersonate'))
             <livewire:admin.users.stop-impersonate />
         @endif
 
-        <x-toast />
+        @if(! app()->environment('production'))
+            <livewire:dev.login/>
+        @endif
 
         <x-main full-width>
             <x-slot:sidebar drawer="main-drawer" collapsible class="pt-3 bg-sky-800 text-white">
@@ -50,8 +55,8 @@
                             <x-menu-item title="Users" icon="o-users" :link="route('admin.users')"/>
                         </x-menu-sub>
                     @endcan
-
                 </x-menu>
+
             </x-slot:sidebar>
 
             <x-slot:content>

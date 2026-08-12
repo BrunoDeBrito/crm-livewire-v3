@@ -11,10 +11,12 @@ use Mary\Traits\Toast;
 
 /**
  * @class Delete
- * @author BrunoDeBrito @email <brunordebrito@gmail.com>
- * @since 7/22/26 15:56
- * @version 1.0.0
  *
+ * @author BrunoDeBrito @email <brunordebrito@gmail.com>
+ *
+ * @since 7/22/26 15:56
+ *
+ * @version 1.0.0
  */
 class Delete extends Component
 {
@@ -23,7 +25,7 @@ class Delete extends Component
     public ?User $user = null;
 
     #[Rule(['required', 'string', 'confirmed'])]
-    public string $confirmation = "DART VADER";
+    public string $confirmation = 'DART VADER';
 
     public ?string $confirmation_confirmation = null;
 
