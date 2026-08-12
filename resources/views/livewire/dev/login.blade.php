@@ -1,4 +1,6 @@
 <div class="flex items-center p-2 space-x-4 bg-sky-800 justify-end">
+    <livewire:dev.branch-env />
+
     <x-select
         wire:model="selectedUser"
         :options="$this->users"
