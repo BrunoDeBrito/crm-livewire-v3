@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Auth;
 
-use App\Notifications\ValidationCodeNotification;
+use App\Events\SendNewCode;
+use App\Notifications\WelcomeNotification;
+use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -18,7 +20,7 @@ use Livewire\Component;
  */
 class EmailValidation extends Component
 {
-    public ?string $code = null;
+    public ?int $code = null;
 
     public function render(): View
     {
@@ -34,15 +36,20 @@ class EmailValidation extends Component
                 }
             },
         ]);
+
+        $user                    = auth()->user();
+        $user->validation_code   = null;
+        $user->email_verified_at = now();
+
+        $user->save();
+
+        $user->notify(new WelcomeNotification());
+
+        $this->redirect(RouteServiceProvider::HOME);
     }
 
     public function sendNewCode(): void
     {
-        $user = auth()->user();
-        $user->update([
-            'validation_code' => rand(100000, 999999),
-        ]);
-
-        $user->notify(new ValidationCodeNotification());
+        SendNewCode::dispatch(auth()->user());
     }
 }

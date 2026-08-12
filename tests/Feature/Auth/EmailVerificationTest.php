@@ -3,7 +3,8 @@
 use App\Listeners\Auth\CreateValidationCode;
 use App\Livewire\Auth\{EmailValidation, Register};
 use App\Models\User;
-use App\Notifications\ValidationCodeNotification;
+use App\Notifications\{ValidationCodeNotification, WelcomeNotification};
+use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Livewire\Livewire;
 
@@ -14,7 +15,7 @@ beforeEach(function () {
     Notification::fake();
 });
 
-describe('After Registration', function () {
+describe('After Registration:', function () {
     it('should create a new validation code and save in the users table.', function () {
         $user = User::factory()->create([
             'email_verified_at' => null,
@@ -61,7 +62,7 @@ describe('After Registration', function () {
     });
 });
 
-describe('Validation Page', function () {
+describe('Validation Page:', function () {
     it('should redirect to the validation page after registration.', function () {
         Livewire::test(Register::class)
             ->set('name', 'Joe Doe')
@@ -99,5 +100,24 @@ describe('Validation Page', function () {
         expect($user->validation_code)->not->toBe($oldCode);
 
         Notification::assertSentTo($user, ValidationCodeNotification::class);
+    });
+
+    it('should should email_verified and delete the code if the code is valid', function () {
+        $user = User::factory()->withValidationCode()->create();
+
+        actingAs($user);
+
+        Livewire::test(EmailValidation::class)
+            ->set('code', $user->validation_code)
+            ->assertHasNoErrors()
+            ->call('handle')
+            ->assertRedirect(RouteServiceProvider::HOME);
+
+        expect($user)
+            ->email_verified_at->not->toBeNull()
+            ->validation_code->toBeNull();
+
+        Notification::assertSentTo($user, WelcomeNotification::class);
+
     });
 });
