@@ -31,6 +31,7 @@ class User extends Authenticatable implements Auditable
         'name',
         'email',
         'password',
+        'validation_code',
         'restored_at',
         'restored_by',
         'deleted_by',

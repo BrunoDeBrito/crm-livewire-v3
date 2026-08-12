@@ -2,15 +2,22 @@
 
 namespace App\Providers;
 
+use App\Listeners\Auth\CreateValidationCode;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+/**
+ * @class EventServiceProvider
+ * @author BrunoDeBrito @email <brunordebrito@gmail.com>
+ * @since 8/12/26 16:02
+ * @version 1.0.0
+ *
+ */
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
         Registered::class => [
-            SendEmailVerificationNotification::class,
+            CreateValidationCode::class,
         ],
     ];
 

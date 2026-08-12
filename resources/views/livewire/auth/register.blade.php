@@ -1,4 +1,4 @@
-<x-card shadow class="mx-auto w-[500px]">
+<x-card title="Register User" shadow class="mx-auto w-[500px]">
     <x-form wire:submit="submit">
         <x-input label="Name" wire:model="name" />
         <x-input label="Email" wire:model="email"/>
@@ -11,7 +11,7 @@
                 </a>
                 <div>
                     <x-button label="Reset" type="reset"/>
-                    <x-button label="Login" class="btn-primary" type="submit" spinner="submit"/>
+                    <x-button label="Register" class="btn-primary" type="submit" spinner="submit"/>
                 </div>
             </div>
         </x-slot:actions>

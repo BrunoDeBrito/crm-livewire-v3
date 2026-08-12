@@ -14,6 +14,9 @@ Route::get('logout', fn () => Auth::logout() && redirect('login'));
 //region Register/Password Routes
 Route::get('register', Register::class)
     ->name('auth.register');
+Route::get('/register/email-validation', fn () => 'oi')
+    ->middleware('auth')
+    ->name('auth.email-validation');
 Route::get('password/recovery', Password\Recovery::class)
     ->name('password.recovery');
 Route::get('password/reset', Password\Reset::class)

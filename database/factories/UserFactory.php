@@ -42,6 +42,15 @@ class UserFactory extends Factory
         );
     }
 
+    public function withValidationCode(): static
+    {
+        return $this->state(
+            fn () => [
+                'validation_code' => random_int(100000, 999999),
+            ]
+        );
+    }
+
     public function admin(): static
     {
         return $this->afterCreating(
