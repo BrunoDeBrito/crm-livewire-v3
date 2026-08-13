@@ -2,7 +2,8 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\{Authenticate,
+use App\Http\Middleware\{
+    Authenticate,
     EncryptCookies,
     HandleImpersonation,
     PreventRequestsDuringMaintenance,
@@ -11,11 +12,20 @@ use App\Http\Middleware\{Authenticate,
     TrimStrings,
     TrustProxies,
     ValidateSignature,
-    VerifyCsrfToken};
-use Illuminate\Auth\Middleware\{AuthenticateWithBasicAuth, Authorize, RequirePassword};
+    VerifyCsrfToken
+};
+use Illuminate\Auth\Middleware\{
+    AuthenticateWithBasicAuth,
+    Authorize,
+    RequirePassword
+};
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Illuminate\Foundation\Http\Middleware\{ConvertEmptyStringsToNull, HandlePrecognitiveRequests, ValidatePostSize};
+use Illuminate\Foundation\Http\Middleware\{
+    ConvertEmptyStringsToNull,
+    HandlePrecognitiveRequests,
+    ValidatePostSize
+};
 use Illuminate\Http\Middleware\{HandleCors, SetCacheHeaders};
 use Illuminate\Routing\Middleware\{SubstituteBindings, ThrottleRequests};
 use Illuminate\Session\Middleware\{AuthenticateSession, StartSession};
