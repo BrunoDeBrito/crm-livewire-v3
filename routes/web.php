@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\Can;
-use App\Livewire\Auth\{Login, Password, Register};
+use App\Livewire\Auth\{EmailValidation, Login, Password, Register};
 use App\Livewire\{Admin, Welcome};
 use Illuminate\Support\Facades\Route;
 
@@ -14,14 +14,15 @@ Route::get('logout', fn () => Auth::logout() && redirect('login'));
 //region Register/Password Routes
 Route::get('register', Register::class)
     ->name('auth.register');
+Route::get('/register/email-validation', EmailValidation::class)
+    ->middleware('auth')
+    ->name('auth.email-validation');
 Route::get('password/recovery', Password\Recovery::class)
     ->name('password.recovery');
 Route::get('password/reset', Password\Reset::class)
     ->name('password.reset');
 //endregion
-
-//region Middleware Auth
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     //region Dashboard
     Route::get('', Welcome::class)
         ->name('dashboard');
@@ -41,4 +42,3 @@ Route::middleware('auth')->group(function () {
         );
     //endregion
 });
-//endregion

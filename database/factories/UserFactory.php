@@ -9,11 +9,14 @@ use Illuminate\Support\Str;
 
 /**
  * @class UserFactory
- * @author BrunoDeBrito @email <brunordebrito@gmail.com>
- * @since 7/9/26 15:52
- * @version 1.0.0
- * @extends Factory<User>
  *
+ * @author BrunoDeBrito @email <brunordebrito@gmail.com>
+ *
+ * @since 7/9/26 15:52
+ *
+ * @version 1.0.0
+ *
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -39,6 +42,16 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(
             fn (User $user) => $user->givePermissionTo($key)
+        );
+    }
+
+    public function withValidationCode(): static
+    {
+        return $this->state(
+            fn () => [
+                'email_verified_at' => null,
+                'validation_code'   => random_int(100000, 999999),
+            ]
         );
     }
 

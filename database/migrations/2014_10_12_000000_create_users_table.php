@@ -13,16 +13,19 @@ return new class () extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->softDeletes();
-            $table->dateTime('restored_at')->nullable();
             $table->foreignIdFor(User::class, 'restored_by')->nullable();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();
 
+            $table->integer('validation_code')->nullable();
+
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+
+            $table->softDeletes();
+            $table->dateTime('restored_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

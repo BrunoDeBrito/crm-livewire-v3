@@ -34,7 +34,7 @@ it('should make sure that we are logged with the impersonated user.', function (
         ->assertRedirect(route('dashboard'));
 
     get(route('dashboard'))
-        ->assertSee(__("You are impersonating :name, click here to stop the impersonation.", ['name' => $user->name]));
+        ->assertSee(__('You are impersonating :name, click here to stop the impersonation.', ['name' => $user->name]));
 
     expect(auth()->user()->id)->toBe($user->id);
 });
@@ -52,7 +52,7 @@ it('should be able to stop impersonate.', function () {
     expect(session('impersonate'))->toBeNull();
 
     get(route('dashboard'))
-        ->assertDontSee(__("You are impersonating :name, click here to stop the impersonation.", ['name' => $user->name]));
+        ->assertDontSee(__('You are impersonating :name, click here to stop the impersonation.', ['name' => $user->name]));
 
     expect(auth()->user()->id)->toBe($admin->id);
 });
