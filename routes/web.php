@@ -22,9 +22,7 @@ Route::get('password/recovery', Password\Recovery::class)
 Route::get('password/reset', Password\Reset::class)
     ->name('password.reset');
 //endregion
-
-//region Middleware Auth
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     //region Dashboard
     Route::get('', Welcome::class)
         ->name('dashboard');
