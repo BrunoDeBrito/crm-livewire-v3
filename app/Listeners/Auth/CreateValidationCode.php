@@ -24,7 +24,6 @@ class CreateValidationCode
         $user = $event->user;
 
         $user->validation_code = random_int(100000, 999999);
-
         $user->save();
 
         $user->notify(new ValidationCodeNotification());
