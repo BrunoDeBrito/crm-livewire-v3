@@ -2,7 +2,7 @@
 
 use App\Enums\Can;
 use App\Livewire\Auth\{EmailValidation, Login, Password, Register};
-use App\Livewire\{Admin, Welcome};
+use App\Livewire\{Admin, Customers, Welcome};
 use Illuminate\Support\Facades\Route;
 
 //region Login/Logout Routes
@@ -40,5 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     ->name('admin.users');
             }
         );
+    //endregion
+
+    //region Customer Route
+    Route::get('customers', Customers\Index::class)->name('customers');
     //endregion
 });

@@ -17,6 +17,7 @@ use Livewire\{Attributes\On, Component, WithPagination};
  * @author BrunoDeBrito @email <brunordebrito@gmail.com>
  * @since 7/16/26 10:31
  * @version 1.0.0
+ *
  * @property-read Collection|User[] $users
  * @property-read array $headers
  */
@@ -137,7 +138,6 @@ class Index extends Component
             ->when($value, fn (Builder $q) => $q->where('name', 'like', "%{$value}%"))
             ->orderBy('key')
             ->get();
-
     }
 
     public function sortBy(?string $column, ?string $direction): void

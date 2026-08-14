@@ -22,7 +22,6 @@
                 searchable
                 no-result-text="Nothing here"
             />
-
         </div>
 
         <div>
