@@ -8,7 +8,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\{Attributes\On, Component, WithPagination};
 
@@ -65,21 +64,7 @@ class Index extends Component
 
         return User::query()
             ->with('permissions')
-            ->when(
-                $this->search,
-                function (Builder $q) use ($search) {
-                    $q->where(
-                        DB::raw('lower(name)'), /** @phpstan-ignore-line */
-                        'like',
-                        "%{$search}%"
-                    )
-                        ->orWhere(
-                            'email',
-                            'like',
-                            "%{$search}%"
-                        );
-                }
-            )
+            ->search($search, ['name', 'email'])
             ->when(
                 $this->search_permissions,
                 fn (Builder $q) => $q->whereHas('permissions', function (Builder $query) {

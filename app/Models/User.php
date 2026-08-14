@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasPermissions;
+use App\Traits\{HasPermissions, HasSearch};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\{SoftDeletes};
@@ -14,18 +14,22 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @class User
+ *
  * @author BrunoDeBrito @email <brunordebrito@gmail.com>
+ *
  * @since 6/18/26 23:08
+ *
  * @version 1.0.0
  */
 class User extends Authenticatable implements Auditable
 {
+    use AuditableTrait;
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use HasPermissions;
+    use Notifiable;
     use SoftDeletes;
-    use AuditableTrait;
+    use HasSearch;
 
     protected $fillable = [
         'name',
@@ -56,4 +60,5 @@ class User extends Authenticatable implements Auditable
     {
         return $this->belongsTo(__CLASS__, 'deleted_by');
     }
+
 }
