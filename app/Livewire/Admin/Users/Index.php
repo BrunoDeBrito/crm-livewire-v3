@@ -17,7 +17,7 @@ use Livewire\{Attributes\On, Component, WithPagination};
  * @since 7/16/26 10:31
  * @version 1.0.0
  *
- * @property-read Collection|User[] $users
+ * @property-read Collection|User[] $items
  * @property-read array $headers
  */
 class Index extends Component
@@ -57,7 +57,7 @@ class Index extends Component
     }
 
     #[Computed]
-    public function users(): LengthAwarePaginator
+    public function items(): LengthAwarePaginator
     {
         $this->validate(['search_permissions' => 'exists:permissions,id']);
         $search = strtolower($this->search);

@@ -51,7 +51,7 @@
 
     <x-table
         :headers="$this->headers"
-        :rows="$this->users->getCollection()"
+        :rows="$this->items()->getCollection()"
         striped
         with-pagination
     >
@@ -122,7 +122,7 @@
 
     </x-table>
 
-    {{ $this->users->links(data: ['scrollTo' => false]) }}
+    {{ $this->items()->links(data: ['scrollTo' => false]) }}
 
     <livewire:admin.users.delete/>
     <livewire:admin.users.restore/>

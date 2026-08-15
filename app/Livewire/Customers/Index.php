@@ -13,13 +13,12 @@ use Livewire\{Attributes\Computed, Component, WithPagination};
  * @since 8/13/26 15:14
  * @version 1.0.0
  *
- * @property-read LengthAwarePaginator|Customer[] $customers
+ * @property-read LengthAwarePaginator|Customer[] $items
  * @property-read array $headers
  */
 class Index extends Component
 {
     use WithPagination;
-
     public ?string $search = null;
 
     public ?string $sortColumnBy = 'id';
@@ -30,7 +29,7 @@ class Index extends Component
 
     public function render(): View
     {
-        return view('livewire.cutomers.index');
+        return view('livewire.customers.index');
     }
 
     #[Computed]
@@ -65,7 +64,7 @@ class Index extends Component
     }
 
     #[Computed]
-    public function customers(): LengthAwarePaginator
+    public function items(): LengthAwarePaginator
     {
         return Customer::query()
             ->search($this->search, ['name', 'email'])

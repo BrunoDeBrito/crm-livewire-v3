@@ -29,9 +29,9 @@
 
     <x-table
         :headers="$this->headers"
-        :rows="$this->customers->getCollection()"
+        :rows="$this->items->getCollection()"
         striped
     />
 
-    {{ $this->customers->links(data: ['scrollTo' => false]) }}
+    {{ $this->items->links(data: ['scrollTo' => false]) }}
 </div>
