@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Enums\Can;
 use App\Models\{Permission, User};
+use App\Traits\HasTable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,20 +24,7 @@ use Livewire\{Attributes\On, Component, WithPagination};
 class Index extends Component
 {
     use WithPagination;
-
-    public ?string $search = null;
-
-    public Collection $permissionsToSearch;
-
-    public array $search_permissions = [];
-
-    public ?string $sortColumnBy = 'id';
-
-    public ?string $sortDirection = 'asc';
-
-    public bool $search_trash = false;
-
-    public int $perPage = 15;
+    use HasTable;
 
     public function mount(): void
     {
@@ -80,39 +68,14 @@ class Index extends Component
     }
 
     #[Computed]
-    public function headers(): array
+    public function tableHeaders(): array
     {
         return [
-            [
-                'key'           => 'id',
-                'label'         => '#',
-                'sortColumnBy'  => $this->sortColumnBy,
-                'sortDirection' => $this->sortDirection,
-            ],
-            [
-                'key'           => 'name',
-                'label'         => 'Name',
-                'sortColumnBy'  => $this->sortColumnBy,
-                'sortDirection' => $this->sortDirection,
-            ],
-            [
-                'key'           => 'email',
-                'label'         => 'Email',
-                'sortColumnBy'  => $this->sortColumnBy,
-                'sortDirection' => $this->sortDirection,
-            ],
-            [
-                'key'           => 'permissions',
-                'label'         => 'Permissions',
-                'sortColumnBy'  => $this->sortColumnBy,
-                'sortDirection' => $this->sortDirection,
-            ],
-            [
-                'key'           => 'actions',
-                'label'         => 'Actions',
-                'sortColumnBy'  => $this->sortColumnBy,
-                'sortDirection' => $this->sortDirection,
-            ],
+            ['key' => 'id',          'label' => '#'],
+            ['key' => 'name',        'label' => 'Name'],
+            ['key' => 'email',       'label' => 'Email'],
+            ['key' => 'permissions', 'label' => 'Permissions'],
+            ['key' => 'actions',     'label' => 'Actions'],
         ];
     }
 

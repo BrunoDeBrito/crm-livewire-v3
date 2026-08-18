@@ -55,5 +55,4 @@ trait HasPermissions
     {
         return "user::{$this->id}::permissions";
     }
-
 }
